@@ -86,8 +86,8 @@ docker run -p 5672:5672 -p 15672:15672 -d rabbitmq:management
 ```
 
 In order to give `villas-controller` the `broker_url` we can use two methods:
-> [!INFO]
-> We will always run VILLAScontroller as a daemon, hence we will be using the deamon SUBCOMMAND (check villas-controller -h)
+> [!TIP]
+> We will always run VILLAScontroller as a daemon, hence we will be using the `deamon` SUBCOMMAND (check `villas-controller -h`) through this entire guide.
 
 1. Use a config file. E.g., simply create a new file called `config.json`:
    ```json
@@ -113,3 +113,50 @@ In order to give `villas-controller` the `broker_url` we can use two methods:
 >                    ^^^^^^^^^^^^^^^^^^^^^^
 > TypeError: 'NoneType' object is not iterable
 > ```
+
+If everything works, you should see an output like:
+
+```bash
+2026-03-18 11:18:51 | INFO | villas.controller | Connecting to: amqp://guest:guest@localhost/%2F
+2026-03-18 11:18:51 | INFO | villas.controller.controller | Starting mixing for 0 components
+2026-03-18 11:18:51 | INFO | kombu.mixins | Connected to amqp://guest:**@127.0.0.1:5672//
+2026-03-18 11:18:51 | INFO | villas.controller.api | Starting API at http://localhost:8089/api/v1
+2026-03-18 11:18:51 | INFO | villas.controller.controller | Components changed. Restarting mixin
+2026-03-18 11:18:51 | INFO | villas.controller.controller | Adding generic manager <Generic Manager: 32018e4e-5519-4633-86ef-59dceb29fb27>
+2026-03-18 11:18:51 | INFO | villas.controller.manager.generic.32018e4e-5519-4633-86ef-59dceb29fb27 | Start state publish thread
+2026-03-18 11:18:52 | INFO | villas.controller.controller | Starting mixing for 1 components
+2026-03-18 11:18:52 | INFO | kombu.mixins | Connected to amqp://guest:**@127.0.0.1:5672//
+```
+
+> [!TIP]
+> Don't worry about the reoccuring (every 30 seconds) messages, these are just some kind of health checks.
+
+As you can see, you can freely define the `broker_url`. Now, let's have a look at the so called *Components*.
+
+# Components
+
+VILLAScontroller basically consists of two parts,
+- A so called `ControllerMixin` instance:
+  ```python
+  # villas/controller/controller.py
+  
+  class ControllerMixin(kombu.mixins.ConsumerProducerMixin):
+  ```
+  Which gets created and started by the `daemon` subcommand:
+  ```python
+  # villas/controller/commands/daemon.py
+
+  d = ControllerMixin(connection, args)
+  d.start()
+  ```
+  I would advise to keep reading and not jump unless you really want to jump. In case you want to jump, we can look deeper into [ControllerMixin](#controller-mixin).
+- Components:
+  ```python
+  # villas/controller/component.py
+
+  class Component:
+  ```
+  Pretty much everything in VILLASController is a *Component*. `Component` and `ControllerMixin` are pretty much the core aspects of VILLASController.
+
+# Controller Mixin
+**WORK IN PROGRESS**
