@@ -149,7 +149,7 @@ VILLAScontroller basically consists of two parts,
   d = ControllerMixin(connection, args)
   d.start()
   ```
-  I would advise to keep reading and not jump unless you really want to jump. In case you want to jump, we can look deeper into [ControllerMixin](#controller-mixin).
+  The method call `d.start()` starts the kombu Event-Loop. This Event-Loop is responsible for *sending and receiving* messages all the time. VILLAScontroller basically runs in this Event-Loop.
 - Components:
   ```python
   # villas/controller/component.py
@@ -159,6 +159,40 @@ VILLAScontroller basically consists of two parts,
   Pretty much everything (exceptions exist) in VILLASController is a *Component*. If you look up which classes inherit from `Component` you will end up with a hierarchy such as this (it might take some time for the SVG to load:
   ![villas-controller-uml](villas-controller-uml.svg)
   The same diagram can also be found on the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
+
+  Components, e.g. `DummySimulator`, `VILLASnodeManager`, etc. are created through the config file. Inside the config file you can define which Components you want or need and also give them properties. For now, let's focus on `VILLASnodeManager` since this class is the one that can *speak* to a villas-node process.
+
+## VILLASnodeManager
+
+First of all, let's see how we can create a `VILLASnodeManager` component. If you take a look at `ControllerMixin.__init__()` you will notice the lines
+```python
+# villas/controller/controller.py
+self.config: Config = args.config
+
+
+comps = [c for c in self.config.components if c.enabled]
+for comp in comps:
+    LOGGER.info('Adding %s', comp)
+    manager.add_component(comp)
+```
+
+Since `self.config` is an instance of the class `Config` let's take a look at what is defined under `sellf.config.components`:
+```python
+# villas/controller/config.py
+
+@property
+def components(self) -> List[Component]:
+    return [Component.from_dict(c) for c in self.config.components]
+```
+
+> [!TIP]
+> Yes, it has a bit of a name mangling going on. However the `self.config.components` in the `Config.comoponents()` method leads to nowhere and Python automatically calls the further defined method `Config.__getattr__()` method:
+> ```python
+> # villas/controller/config.py
+> 
+> def __getattr__(self, attr):
+>     return self.config.get(attr)
+> ```
 
 # Controller Mixin
 **WORK IN PROGRESS**
