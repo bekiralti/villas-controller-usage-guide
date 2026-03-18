@@ -2,7 +2,9 @@
 
 This tutorial will try to show how you can use VILLAScontroller to communicate with a VILLASnode process. This document will hopefully not be too technical. For a technical documentation please have a look at [with_code_explanation](with_code_explanation/readme.md). 
 
-The goal of this document is to provide a quick entrypoint for someone who is new to the VILLASframework, or a reference point for someone who is already familiar with the VILLASframework. The [VILLASframework](https://github.com/VILLASframework) itself consists of more parts than just [VILLAScontroller](https://github.com/VILLASframework/controller) and [VILLASnode](https://github.com/VILLASframework/node). However in this document we will solely focus on VILLAScontroller and a little bit of VILLASnode. Maybe in future I will extend this tutorial. Maybe you will be the one who writes an extensive tutorial for VILLASnode or the other parts of the VILLASframework.
+The goal of this document is to provide a quick entrypoint for someone who is new to the VILLASframework, or a reference point for someone who is already familiar with the VILLASframework. The [VILLASframework](https://github.com/VILLASframework) itself consists of more parts than just [VILLAScontroller](https://github.com/VILLASframework/controller) and [VILLASnode](https://github.com/VILLASframework/node). However in this document we will solely focus on VILLAScontroller and a little bit of VILLASnode. At least for now ...
+
+If you encounter any problems following this tutorial, please feel free to open an Issue. If you already have a solution please feel free to open a Pull Request. I'm more than happy about contributions, so, feel free to open Pull Requests or Issues.
 
 # Installation
 
