@@ -92,9 +92,9 @@ docker run -p 5672:5672 -p 15672:15672 -d rabbitmq:management
 
 In order to give `villas-controller` the `broker_url` we can use two methods:
 
-### Method 1
+### Method 1 (recommended)
 
-Use a config file. E.g., simply create a new file called `config.json`:
+Use a config file (recommended). E.g., simply create a new file called `config.json`:
 ```json
 {
     "broker": {
