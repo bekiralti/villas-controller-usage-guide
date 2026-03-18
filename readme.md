@@ -59,9 +59,13 @@ Next, we will install `villas-node`.
    ```bash
    cd node
    ```
-3. Personally, I installed the `nix` packet manager (yes, on Arch Linux) and installed VILLASnode via [nix.flake](https://github.com/VILLASframework/node/blob/master/flake.nix). I would highly recommend this since I encountered the least trouble this way.
+3. Personally, I installed the `nix` packet manager (yes, on Arch Linux) and installed VILLASnode via [nix.flake](https://github.com/VILLASframework/node/blob/master/flake.nix). I would highly recommend this since I encountered the least trouble this way. The official [VILLASnode documentation](https://github.com/VILLASframework/node/tree/master/packaging/nix) and the instructions on the [official repository](https://github.com/VILLASframework/node/tree/master/packaging/nix) are quite helpful (you definitely don't need to read all of it).
 
-   At this moment in time I would like to redirect you to the official [VILLASnode documentation](https://github.com/VILLASframework/node/tree/master/packaging/nix).  I also managed to simply compile VILLASnode on my machine however I would like to write out this part (maybe you can help me out) 
+   I also managed to simply compile VILLASnode on my machine. However, I would leave this part as a **work in progress** for now as I did encounter some issues and had to open one or two Pull Requests on the official repository.
+
+   Since we are on Arch Linux, we can also simply use the [PKGBUILD](https://github.com/VILLASframework/node/tree/master/packaging/archlinux). However, I do remember encountering issues here as well. I did manage to install it via PKGBUILD however I had to make a Pull Request on the official repository and I don't remember all the quirks at this moment. Hence I would also like to leave this as a **work in progress** for now.
+
+   I'd be more than happy if you can help me out with the **work in progress** parts, but no worries I vaguely remember what I did so it shouldn't be too troublesome to get back into it and finish the **work in progreess** parts myself.
 6. Check if installation was successful:
    ```bash
    villas-node -V
