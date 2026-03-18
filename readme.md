@@ -65,7 +65,7 @@ Next, we will install `villas-node`.
 
    Since we are on Arch Linux, we can also simply use the [PKGBUILD](https://github.com/VILLASframework/node/tree/master/packaging/archlinux). However, I do remember encountering issues here as well. I did manage to install it via PKGBUILD however I had to make a Pull Request on the official repository and I don't remember all the quirks at this moment. Hence I would also like to leave this as a **work in progress** for now.
 
-   I'd be more than happy if you can help me out with the **work in progress** parts, but no worries since I went through the troubles once it shouldn't be too difficult to go through them again.
+   I'd be more than happy if you can help me out with the **work in progress** parts, but no worries since I went through the troubles once it shouldn't be too difficult to go through them again and document them this time.
 6. Check if installation was successful:
    ```bash
    villas-node -V
