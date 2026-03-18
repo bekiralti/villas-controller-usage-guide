@@ -131,7 +131,7 @@ villas-controller -b "amqp://guest:guest@localhost/%2F" daemon
 ```
    
 > [!WARNING]
-> However, this method crashes.
+> However, leads to a crash in a different part of the code.
 > ```bash
 >     comps = [c for c in self.config.components if c.enabled]
 >                    ^^^^^^^^^^^^^^^^^^^^^^
