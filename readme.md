@@ -169,9 +169,53 @@ Eventhough the following UML diagram belongs to the more detailed [with_code_exp
 
 A better, sleaker version of the same diagram can be found in the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
 
-Let's a have look at a random Component *i*. VILLAScontroller first decides to which *category* this Component belongs. Let's get straight to the 
+VILLAScontroller first decides to which *category* a Component belongs. For that it looks at its field `category`. Let's keep our example going with only one Component.
 
+```json
+{
+    "broker": {
+        "url" : "amqp://guest:guest@localhost/%2F"
+    },
+    "components": [
+        {
+            "category": Is this a "simulator", a "manager" or a "gateway"
+        }
+    ]
+}
+```
 
+Since we want to control a `villas-node` process we will go for the `manager` *category*. 
+
+```json
+{
+    "broker": {
+        "url" : "amqp://guest:guest@localhost/%2F"
+    },
+    "components": [
+        {
+            "category": "manager"
+        }
+    ]
+}
+```
+
+Why? we will find this out in the next couple lines. Main reason is, because after looking at the `category` VILLAScontroller looks at the field `type`.
+
+```json
+{
+    "broker": {
+        "url" : "amqp://guest:guest@localhost/%2F"
+    },
+    "components": [
+        {
+            "category": "manager",
+            "type": Is this a "generic", a "kubernetes", a "villas-node", a "villas-relay" or a "miob" manager
+        }
+    ]
+}
+```
+
+We will set this one to `villas-node` (if you look at the Code and go to the definition of the next call you will immmediately see why, hint: Look at `Manager.from_dict()` method inside `villas/controller/components/manager.py`)
 
 
 
