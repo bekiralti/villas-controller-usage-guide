@@ -164,7 +164,7 @@ Before we start, I would like to mention that pretty much everything in VILLASco
 }
 ```
 
-Eventhough the following UML diagram belongs to the more detailed explanation [with_code_explanation](with_code_explanation/readme.md), I think it still helps in understanding how each Component is build. 
+Eventhough the following UML diagram belongs to the more detailed [with_code_explanation](with_code_explanation/readme.md), I think it still helps in understanding how each Component is build. 
 ![villas-controller-uml](villas-controller-uml.svg)
 
 A better, sleaker version of the same diagram can be found in the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
