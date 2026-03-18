@@ -85,7 +85,10 @@ This is why a RabbitMQ service needs to be already running. We can simply use th
 docker run -p 5672:5672 -p 15672:15672 -d rabbitmq:management
 ```
 
-We will always run VILLAScontroller as a daemon, hence we will be using the `deamon` SUBCOMMAND (check `villas-controller -h`). In order to give `villas-controller` the `broker_url` we can use two methods:
+In order to give `villas-controller` the `broker_url` we can use two methods:
+> [!INFO]
+> We will always run VILLAScontroller as a daemon, hence we will be using the deamon SUBCOMMAND (check villas-controller -h)
+
 1. Use a config file. E.g., simply create a new file called `config.json`:
    ```json
    {
