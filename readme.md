@@ -1,6 +1,6 @@
 # Summary
 
-This guide will try to show how to use VILLAScontroller and also try to explain it by using according Code Snippets. Let's start with the installation first.
+This guide will try to show how to use VILLAScontroller to communicate with a VILLASnode process. I will try to not get too technical. For a technical documentation please have a look at [with_code_explanation](with_code_explanation/readme.md).
 
 # Installation
 
@@ -74,20 +74,13 @@ Let's start cooking.
 ## RabbitMQ
 
 VILLASController uses RabbitMQ to communicate. Pretty much one of the first things the VILLASController does (besides parsing the arguments yada yada) is to connect to a RabbitMQ broker.
-```python
-# villas/controller/main.py
 
-with kombu.Connection(broker_url, connect_timeout=3) as c:
-```
-
-This is why a RabbitMQ service needs to be already running. We can simply use the [VILLAScontroller documentation](https://villas.fein-aachen.org/docs/controller/usage) and run RabbitMQ inside a Docker Container.
+This is why a RabbitMQ service needs to be already running. A quick look into the [official documentation](https://villas.fein-aachen.org/docs/controller/usage) shows us how we can run RabbitMQ inside a Docker Container.
 ```bash
 docker run -p 5672:5672 -p 15672:15672 -d rabbitmq:management
 ```
 
 In order to give `villas-controller` the `broker_url` we can use two methods:
-> [!TIP]
-> We will always run VILLAScontroller as a daemon, hence we will be using the `deamon` SUBCOMMAND (check `villas-controller -h`) through this entire guide.
 
 1. Use a config file. E.g., simply create a new file called `config.json`:
    ```json
@@ -128,39 +121,49 @@ If everything works, you should see an output like:
 2026-03-18 11:18:52 | INFO | kombu.mixins | Connected to amqp://guest:**@127.0.0.1:5672//
 ```
 
-> [!TIP]
-> Don't worry about the reoccuring (every 30 seconds) messages, these are just some kind of health checks.
-
-As you can see, you can freely define the `broker_url`. Now, let's have a look at the so called *Components*.
+As you can see, you can freely define the `broker_url`. It just needs to direct to a running RabbitMQ service. Now, let's have a look at the so called *Components*.
 
 # Components
 
-VILLAScontroller basically consists of two parts,
-- A so called `ControllerMixin` instance:
-  ```python
-  # villas/controller/controller.py
-  
-  class ControllerMixin(kombu.mixins.ConsumerProducerMixin):
-  ```
-  Which gets created and started by the `daemon` subcommand:
-  ```python
-  # villas/controller/commands/daemon.py
+As mentioned earlier, I will spare you the technical details. However, you can have a look at [with_code_explanation](with_code_explanation/readme.md) to see how you can derive which *key-value* pairs are valid to use in the config file.
 
-  d = ControllerMixin(connection, args)
-  d.start()
-  ```
-  The method call `d.start()` starts the kombu Event-Loop. This Event-Loop is responsible for *sending and receiving* messages all the time. VILLAScontroller basically runs in this Event-Loop.
-- Components:
-  ```python
-  # villas/controller/component.py
+Before we start, I would like to mention that pretty much everything in VILLAScontroller is a *Component*. In order to create specific *Components* you have to tell VILLAScontroller on start-up via the config file which components you want.
 
-  class Component:
-  ```
-  Pretty much everything (exceptions exist) in VILLASController is a *Component*. If you look up which classes inherit from `Component` you will end up with a hierarchy such as this (it might take some time for the SVG to load:
-  ![villas-controller-uml](villas-controller-uml.svg)
-  The same diagram can also be found on the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
+```json
+{
+    "broker": {
+        "url" : "amqp://guest:guest@localhost/%2F"
+    },
+    "components": [
+        {
+            Component 1 and its properties aka key-value pairs,
+        },
+        {
+            CO
+        }
+    ]
+}
+```
 
-  Components, e.g. `DummySimulator`, `VILLASnodeManager`, etc. are created through the config file. Inside the config file you can define which Components you want or need and also give them properties. For now, let's focus on `VILLASnodeManager` since this class is the one that can *speak* to a villas-node process.
+You arrive to this conclusion once you analyze the code and start drawing the UML diagram. I will show the UML diagram but you can skip it.
+
+![villas-controller-uml](villas-controller-uml.svg)
+
+The same diagram can also be found on the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
+
+The *Components* have a hierarchical structure. The first *layer* defines the `category`. A *Component* can be of category 
+
+Once we analyze the code we will realize that the only *Component* that can communicate with a `villas-node` process is the `VILLASnodeManager`. This means, if we want our VILLAScontroller, to give commands to a `villas-node` process we have to tell our VILLAScontroller on startup (via the config file) that we want at least one `VILLASnodeManager`.
+
+```json
+{
+    "broker": {
+        "url" : "amqp://guest:guest@localhost/%2F"
+    },
+    "components": 
+}
+```
+
 
 ## VILLASnodeManager
 
