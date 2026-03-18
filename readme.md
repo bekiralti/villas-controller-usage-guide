@@ -134,7 +134,7 @@ As you can see, you can freely define the `broker_url`. It just needs to direct 
 
 As mentioned earlier, I will spare you the technical details. However, you can have a look at [with_code_explanation](with_code_explanation/readme.md) to see how you can derive which *key-value* pairs are valid to use in the config file.
 
-Before we start, I would like to mention that pretty much everything in VILLAScontroller is a *Component*. In order to create specific *Components* you have to tell VILLAScontroller on start-up via the config file which components you want.
+Before we start, I would like to mention that pretty much everything in VILLAScontroller is a *Component* (exceptions exist of course). You have to tell `villas-controller` via the config file on startup which components with which settings you want to have.
 
 ```json
 {
@@ -143,20 +143,37 @@ Before we start, I would like to mention that pretty much everything in VILLASco
     },
     "components": [
         {
-            Component 1 and its properties aka key-value pairs,
+            Component 1 and its settings,
         },
         {
-            CO
+            Component 2 and its settings,
+        },
+        {
+            ...
+        },
+        {
+            Component i and its settings,
+        },
+        {
+            ...
+        },
+        {
+            Component n and its settings
         }
     ]
 }
 ```
 
-You arrive to this conclusion once you analyze the code and start drawing the UML diagram. I will show the UML diagram but you can skip it.
-
+Eventhough the following UML diagram belongs to the more detailed explanation [with_code_explanation](with_code_explanation/readme.md), I think it still helps in understanding how each Component is build. 
 ![villas-controller-uml](villas-controller-uml.svg)
 
-The same diagram can also be found on the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
+A better, sleaker version of the same diagram can be found in the [official documentation](https://villas.fein-aachen.org/docs/controller/protocol).
+
+Let's a have look at a random Component *i*. VILLAScontroller first decides to which *category* this Component belongs. Let's get straight to the 
+
+
+
+
 
 The *Components* have a hierarchical structure. The first *layer* defines the `category`. A *Component* can be of category 
 
